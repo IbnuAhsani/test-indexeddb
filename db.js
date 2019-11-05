@@ -9,9 +9,6 @@ dbReq.onupgradeneeded = event => {
 
 dbReq.onsuccess = event => {
   db = event.target.result;
-
-  addStickyNote(db, "Sloths are awesome!");
-  addStickyNote(db, "I need to go to the bathroom!");
 };
 
 dbReq.onerror = event => {
@@ -27,4 +24,12 @@ const addStickyNote = (db, message) => {
 
   tx.oncomplete = () => console.log("stored note!");
   tx.onerror = event => alert("error storing note " + event.target.errorCode);
+};
+
+const submitNote = () => {
+  let message = document.getElementById("message-box");
+
+  addStickyNote(db, message.value);
+
+  message.value = "";
 };
