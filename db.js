@@ -17,10 +17,11 @@ dbReq.onerror = event => {
   alert("error opening database " + event.target.errorCode);
 };
 
-const addStickyNote = (db, message) => {
-  let tx = db.transaction(["notes"], "readwrite");
-  let store = tx.objectStore("notes");
-  let note = { text: message, timestamp: Date.now() };
+const addData = (db, obj) => {
+  const { npm, name, score } = obj;
+  const tx = db.transaction(["notes"], "readwrite");
+  const store = tx.objectStore("notes");
+  const note = { npm, name, score };
 
   store.add(note);
 
@@ -29,11 +30,17 @@ const addStickyNote = (db, message) => {
 };
 
 const submitNote = () => {
-  let message = document.getElementById("message-box");
+  let valueObj = {};
 
-  addStickyNote(db, message.value);
+  [valueObj.npm, valueObj.name, valueObj.score] = [
+    document.getElementById("npm").value,
+    document.getElementById("name").value,
+    document.getElementById("score").value
+  ];
 
-  message.value = "";
+  addData(db, valueObj);
+
+  [valueObj.npm, valueObj.name, valueObj.score] = ["", "", ""];
 };
 
 const displayNotes = notes => {
