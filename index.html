@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head><title>IndexedDB note store</title></head>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>IndexedDB note store</title>
+  </head>
   <body>
-    <div id="app">
-      <div id="textbox">
-        <textarea id="message-box"></textarea>
-        <button onclick="submitNote()">Add note</button>
+    <div class="container">
+      <div class="row mt-4 mb-4">
+        <div class="col-md-12">
+          <center>
+            <h1 class="h1">IndexedDB CRUD App</h1>
+          </center>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <label for="npm">NPM</label>
+          <input type="text" class="form-control" id="npm">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="score">Score</label>
+          <input type="number" class="form-control" id="score">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="inputZip"></label>
+          <button class="form-control btn btn-success" onclick="submitNote()">Submit</button>
+        </div>
       </div>
     </div>
     <div id="notes"></div>
