@@ -1,0 +1,23 @@
+{
+  "name": "indexed-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IbnuAhsani/test-indexeddb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IbnuAhsani/test-indexeddb/issues"
+  },
+  "homepage": "https://github.com/IbnuAhsani/test-indexeddb#readme",
+  "dependencies": {
+    "handlebars": "^4.5.1"
+  }
+}
