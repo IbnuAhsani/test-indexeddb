@@ -31,8 +31,33 @@
           <button class="form-control btn btn-success" onclick="submitNote()">Submit</button>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-11" id="data-table"></div>
+      </div>
     </div>
-    <div id="notes"></div>
+
+    <script id="data-template" type="text/x-handlebars-template">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>NPM</th>
+            <th>Name</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each data}}
+            <tr>
+              <td>{{npm}}</td>
+              <td>{{name}}</td>
+              <td>{{score}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </script>
+
+    <script src="handlebars-v4.4.3.js"></script>
     <script src="db.js"></script>
   </body>
 </html>

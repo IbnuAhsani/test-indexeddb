@@ -43,14 +43,15 @@ const submitNote = () => {
   [valueObj.npm, valueObj.name, valueObj.score] = ["", "", ""];
 };
 
-const displayNotes = notes => {
-  let listHTML = "<ul>";
+const displayNotes = data => {
+  const obj = { data };
 
-  for (const note of notes)
-    listHTML +=
-      "<li>" + note.text + " " + new Date(note.timestamp).toString() + "</li>";
+  const rawTemplate = document.getElementById("data-template").innerHTML;
+  const compiledTemplate = Handlebars.compile(rawTemplate);
+  const generatedHtml = compiledTemplate(obj);
+  const notesContainer = document.getElementById("data-table");
 
-  document.getElementById("notes").innerHTML = listHTML;
+  notesContainer.innerHTML = generatedHtml;
 };
 
 const getAndDisplayNotes = db => {
