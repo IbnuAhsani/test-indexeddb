@@ -4,13 +4,13 @@ let dbReq = indexedDB.open("test-db", 1);
 dbReq.onupgradeneeded = event => {
   db = event.target.result;
 
-  let notes = db.createObjectStore("notes", { autoIncrement: true });
+  let datas = db.createObjectStore("datas", { autoIncrement: true });
 };
 
 dbReq.onsuccess = event => {
   db = event.target.result;
 
-  getAndDisplayNotes(db);
+  getAndDisplayDatas(db);
 };
 
 dbReq.onerror = event => {
@@ -19,55 +19,55 @@ dbReq.onerror = event => {
 
 const addData = (db, obj) => {
   const { npm, name, score } = obj;
-  const tx = db.transaction(["notes"], "readwrite");
-  const store = tx.objectStore("notes");
-  const note = { npm, name, score };
+  const tx = db.transaction(["datas"], "readwrite");
+  const store = tx.objectStore("datas");
+  const data = { npm, name, score };
 
-  store.add(note);
+  store.add(data);
 
-  tx.oncomplete = () => getAndDisplayNotes(db);
-  tx.onerror = event => alert("error storing note " + event.target.errorCode);
+  tx.oncomplete = () => getAndDisplayDatas(db);
+  tx.onerror = event => alert("error storing data " + event.target.errorCode);
 };
 
-const submitNote = () => {
-  let valueObj = {};
+const submitData = () => {
+  let dataObj = {};
 
-  [valueObj.npm, valueObj.name, valueObj.score] = [
+  [dataObj.npm, dataObj.name, dataObj.score] = [
     document.getElementById("npm").value,
     document.getElementById("name").value,
     document.getElementById("score").value
   ];
 
-  addData(db, valueObj);
+  addData(db, dataObj);
 
-  [valueObj.npm, valueObj.name, valueObj.score] = ["", "", ""];
+  [dataObj.npm, dataObj.name, dataObj.score] = ["", "", ""];
 };
 
-const displayNotes = data => {
-  const obj = { data };
+const displayDatas = data => {
+  const dataObj = { data };
 
   const rawTemplate = document.getElementById("data-template").innerHTML;
   const compiledTemplate = Handlebars.compile(rawTemplate);
-  const generatedHtml = compiledTemplate(obj);
-  const notesContainer = document.getElementById("data-table");
+  const generatedHtml = compiledTemplate(dataObj);
+  const datasContainer = document.getElementById("data-table");
 
-  notesContainer.innerHTML = generatedHtml;
+  datasContainer.innerHTML = generatedHtml;
 };
 
-const getAndDisplayNotes = db => {
-  let tx = db.transaction(["notes"], "readonly");
-  let store = tx.objectStore("notes");
+const getAndDisplayDatas = db => {
+  let tx = db.transaction(["datas"], "readonly");
+  let store = tx.objectStore("datas");
 
   let req = store.openCursor();
-  let allNotes = [];
+  let allDatas = [];
 
   req.onsuccess = event => {
     let cursor = event.target.result;
 
     if (cursor) {
-      allNotes.push(cursor.value);
+      allDatas.push(cursor.value);
       cursor.continue();
-    } else displayNotes(allNotes);
+    } else displayDatas(allDatas);
   };
 
   req.onerror = event => {
