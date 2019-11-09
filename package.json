@@ -17,7 +17,5 @@
     "url": "https://github.com/IbnuAhsani/test-indexeddb/issues"
   },
   "homepage": "https://github.com/IbnuAhsani/test-indexeddb#readme",
-  "dependencies": {
-    "handlebars": "^4.5.1"
-  }
+  "dependencies": {}
 }
