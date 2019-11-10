@@ -20,16 +20,6 @@ dbReq.onerror = event => {
   alert("error opening database " + event.target.errorCode);
 };
 
-const addData = (db, obj) => {
-  const tx = db.transaction(["datas"], "readwrite");
-  const store = tx.objectStore("datas");
-
-  store.add(obj);
-
-  tx.oncomplete = () => getAndDisplayDatas(db);
-  tx.onerror = event => alert("error storing data " + event.target.errorCode);
-};
-
 const submitData = () => {
   let dataObj = {};
 
@@ -39,9 +29,16 @@ const submitData = () => {
     parseInt(document.getElementById("score").value)
   ];
 
-  addData(db, dataObj);
+  const tx = db.transaction(["datas"], "readwrite");
+  const store = tx.objectStore("datas");
 
-  [dataObj.npm, dataObj.name, dataObj.score] = ["", "", ""];
+  store.add(dataObj);
+
+  tx.oncomplete = () => {
+    [dataObj.npm, dataObj.name, dataObj.score] = ["", "", ""];
+    getAndDisplayDatas(db);
+  };
+  tx.onerror = event => alert("error storing data " + event.target.errorCode);
 };
 
 const deleteData = npm => {
@@ -52,6 +49,24 @@ const deleteData = npm => {
 
   tx.oncomplete = () => getAndDisplayDatas(db);
   tx.onerror = event => alert("error deleting data " + event.target.errorCode);
+};
+
+const editData = () => {
+  let dataObj = {};
+
+  [dataObj.npm, dataObj.name, dataObj.score] = [
+    parseInt(document.getElementById("npm-edited").value),
+    document.getElementById("name-edited").value,
+    parseInt(document.getElementById("score-edited").value)
+  ];
+
+  const tx = db.transaction(["datas"], "readwrite");
+  const store = tx.objectStore("datas");
+
+  store.put(dataObj);
+
+  tx.oncomplete = () => getAndDisplayDatas(db);
+  tx.onerror = event => alert("error editing data " + event.target.errorCode);
 };
 
 const displayDatas = data => {
@@ -66,10 +81,10 @@ const displayDatas = data => {
 };
 
 const getAndDisplayDatas = db => {
-  let tx = db.transaction(["datas"], "readonly");
-  let store = tx.objectStore("datas");
+  const tx = db.transaction(["datas"], "readonly");
+  const store = tx.objectStore("datas");
 
-  let req = store.openCursor();
+  const req = store.openCursor();
   let allDatas = [];
 
   req.onsuccess = event => {
