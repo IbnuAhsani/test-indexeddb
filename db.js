@@ -21,12 +21,10 @@ dbReq.onerror = event => {
 };
 
 const addData = (db, obj) => {
-  const { npm, name, score } = obj;
   const tx = db.transaction(["datas"], "readwrite");
   const store = tx.objectStore("datas");
-  const data = { npm, name, score };
 
-  store.add(data);
+  store.add(obj);
 
   tx.oncomplete = () => getAndDisplayDatas(db);
   tx.onerror = event => alert("error storing data " + event.target.errorCode);
