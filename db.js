@@ -4,7 +4,10 @@ let dbReq = indexedDB.open("test-db", 1);
 dbReq.onupgradeneeded = event => {
   db = event.target.result;
 
-  let datas = db.createObjectStore("datas", { autoIncrement: true });
+  let datas = db.createObjectStore("datas", {
+    autoIncrement: true,
+    keyPath: "npm"
+  });
 };
 
 dbReq.onsuccess = event => {
@@ -33,14 +36,24 @@ const submitData = () => {
   let dataObj = {};
 
   [dataObj.npm, dataObj.name, dataObj.score] = [
-    document.getElementById("npm").value,
+    parseInt(document.getElementById("npm").value),
     document.getElementById("name").value,
-    document.getElementById("score").value
+    parseInt(document.getElementById("score").value)
   ];
 
   addData(db, dataObj);
 
   [dataObj.npm, dataObj.name, dataObj.score] = ["", "", ""];
+};
+
+const deleteData = npm => {
+  const tx = db.transaction(["datas"], "readwrite");
+  const store = tx.objectStore("datas");
+
+  store.delete(npm);
+
+  tx.oncomplete = () => getAndDisplayDatas(db);
+  tx.onerror = event => alert("error deleting data " + event.target.errorCode);
 };
 
 const displayDatas = data => {

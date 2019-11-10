@@ -34,6 +34,9 @@
       <div class="row">
         <div class="col-md-11" id="data-table"></div>
       </div>
+      <div class="row">
+        <p id="demo"></p>
+      </div>
     </div>
 
     <script id="data-template" type="text/x-handlebars-template">
@@ -43,6 +46,7 @@
             <th>NPM</th>
             <th>Name</th>
             <th>Score</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -51,6 +55,9 @@
               <td>{{npm}}</td>
               <td>{{name}}</td>
               <td>{{score}}</td>
+              <td>
+                <button class="btn btn-danger" onclick="deleteData({{{npm}}})">Delete</button>
+              </td>
             </tr>
           {{/each}}
         </tbody>
